@@ -10,6 +10,8 @@ The generated mod:
 
 It does not remove powered-bench requirements. Recipes that need electricity still need a powered station.
 
+To avoid breaking animal harvesting, the generated patch skips `Skinning_Bench` / `Carcass_*` processor rows.
+
 ## Build
 
 Run:

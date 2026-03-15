@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$GameRoot = "C:\Program Files (x86)\Steam\steamapps\common\Icarus\Icarus",
-    [string]$Version = "1.0.2"
+    [string]$Version = "1.0.3"
 )
 
 Set-StrictMode -Version Latest
@@ -236,6 +236,25 @@ function New-ZeroCostPatch {
     }
 }
 
+function Test-ShouldPatchProcessorRow {
+    param(
+        [hashtable]$Row
+    )
+
+    if ($Row.Name -like "Carcass_*") {
+        return $false
+    }
+
+    if ($Row.ContainsKey("RecipeSets")) {
+        $recipeSetNames = @($Row.RecipeSets | ForEach-Object { $_.RowName })
+        if ($recipeSetNames -contains "Skinning_Bench") {
+            return $false
+        }
+    }
+
+    return $true
+}
+
 $repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 $modSourceDir = Join-Path $repoRoot "mod"
 $buildRoot = Join-Path $repoRoot "build"
@@ -265,7 +284,10 @@ $modInfo = Get-Content -LiteralPath $modInfoPath -Raw | ConvertFrom-Json -AsHash
 $modInfo["version"] = $Version
 $modInfo | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $stageModInfoPath -Encoding utf8
 
-$processorPatch = New-ZeroCostPatch -Target "Crafting/D_ProcessorRecipes.json" -Rows $processorTable.Rows
+$processorRows = @(
+    $processorTable.Rows | Where-Object { Test-ShouldPatchProcessorRow -Row $_ }
+)
+$processorPatch = New-ZeroCostPatch -Target "Crafting/D_ProcessorRecipes.json" -Rows $processorRows -PatchDefaults $false
 $extractorPatch = New-ZeroCostPatch -Target "Crafting/D_ExtractorRecipes.json" -Rows $extractorTable.Rows -PatchDefaults $false
 
 $processorPatchPath = Join-Path $stageDir "processor-zero-cost.patch"
