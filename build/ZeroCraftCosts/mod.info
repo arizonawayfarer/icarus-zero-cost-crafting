@@ -3,7 +3,7 @@
   "id": "azwayfarer/ZeroCraftCosts",
   "name": "Zero Craft Costs",
   "author": "azwayfarer",
-  "description": "Sets material, query, and resource ingredient costs to 0 for live crafting recipes in D_ProcessorRecipes while leaving skinning carcass recipes alone.",
-  "version": "1.0.3",
+  "description": "Sets material, query, and resource ingredient costs to 0 for live crafting recipes in D_ProcessorRecipes while leaving skinning carcass recipes, cooked meat recipes, and direct smelting recipes alone.",
+  "version": "1.0.7",
   "web": "https://github.com/arizonawayfarer/icarus-zero-craft-costs"
 }

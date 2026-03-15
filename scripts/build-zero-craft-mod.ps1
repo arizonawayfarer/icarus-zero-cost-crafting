@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$GameRoot = "C:\Program Files (x86)\Steam\steamapps\common\Icarus\Icarus",
-    [string]$Version = "1.0.3"
+    [string]$Version = "1.0.7"
 )
 
 Set-StrictMode -Version Latest
@@ -241,7 +241,36 @@ function Test-ShouldPatchProcessorRow {
         [hashtable]$Row
     )
 
+    $excludedSmeltingRows = @(
+        "Aluminum",
+        "Cold_Steel_Ingot",
+        "Cold_Steel_Ingot_2",
+        "Glass",
+        "Glass2",
+        "Limestone_Glass",
+        "Lithium_Refined",
+        "Platinum_Ingot",
+        "Refined_Copper",
+        "Refined_Gold",
+        "Refined_Metal",
+        "Steel_Bloom",
+        "Steel_Bloom2",
+        "Steel_Bloom3",
+        "Steel_Bloom4",
+        "Steel_Bloom_Limestone",
+        "Steel_Ingot",
+        "Titanium_Ingot"
+    )
+
     if ($Row.Name -like "Carcass_*") {
+        return $false
+    }
+
+    if ($Row.Name -like "Cooked_*Meat") {
+        return $false
+    }
+
+    if ($excludedSmeltingRows -contains $Row.Name) {
         return $false
     }
 

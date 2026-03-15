@@ -10,7 +10,7 @@ The generated mod:
 
 It does not remove powered-bench requirements. Recipes that need electricity still need a powered station.
 
-To avoid breaking animal harvesting, the generated patch skips `Skinning_Bench` / `Carcass_*` processor rows.
+To avoid breaking animal harvesting, special knife cook effects, and special mining tool smelt effects, the generated patch skips `Skinning_Bench`, `Carcass_*`, `Cooked_*Meat`, and the direct smelting output rows for ingots, blooms, refined metals, and glass.
 
 ## Build
 
@@ -29,7 +29,7 @@ pwsh -File .\scripts\build-zero-craft-mod.ps1 -GameRoot 'D:\SteamLibrary\steamap
 To override the packaged mod version:
 
 ```powershell
-pwsh -File .\scripts\build-zero-craft-mod.ps1 -Version '1.0.3'
+pwsh -File .\scripts\build-zero-craft-mod.ps1 -Version '1.0.7'
 ```
 
 ## Output
