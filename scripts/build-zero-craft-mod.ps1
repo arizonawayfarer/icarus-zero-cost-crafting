@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [string]$GameRoot = "C:\Program Files (x86)\Steam\steamapps\common\Icarus\Icarus"
+    [string]$GameRoot = "C:\Program Files (x86)\Steam\steamapps\common\Icarus\Icarus",
+    [string]$Version = "1.0.2"
 )
 
 Set-StrictMode -Version Latest
@@ -258,13 +259,17 @@ if (Test-Path -LiteralPath $stageDir) {
 New-Item -ItemType Directory -Force -Path $stageDir | Out-Null
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
 
-Copy-Item -LiteralPath (Join-Path $modSourceDir "mod.info") -Destination (Join-Path $stageDir "mod.info")
+$modInfoPath = Join-Path $modSourceDir "mod.info"
+$stageModInfoPath = Join-Path $stageDir "mod.info"
+$modInfo = Get-Content -LiteralPath $modInfoPath -Raw | ConvertFrom-Json -AsHashtable
+$modInfo["version"] = $Version
+$modInfo | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $stageModInfoPath -Encoding utf8
 
 $processorPatch = New-ZeroCostPatch -Target "Crafting/D_ProcessorRecipes.json" -Rows $processorTable.Rows
 $extractorPatch = New-ZeroCostPatch -Target "Crafting/D_ExtractorRecipes.json" -Rows $extractorTable.Rows -PatchDefaults $false
 
 $processorPatchPath = Join-Path $stageDir "processor-zero-cost.patch"
-$zipPath = Join-Path $distDir "zero-craft-costs-1.0.2.zip"
+$zipPath = Join-Path $distDir "zero-craft-costs-$Version.zip"
 
 $processorPatch | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $processorPatchPath -Encoding utf8
 if ($extractorPatch.data.patches.Count -gt 0) {

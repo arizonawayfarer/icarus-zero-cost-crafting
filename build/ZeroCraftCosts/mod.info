@@ -5,5 +5,5 @@
   "author": "azwayfarer",
   "description": "Sets material, query, and resource ingredient costs to 0 for live crafting recipes in D_ProcessorRecipes for the current local Icarus build.",
   "version": "1.0.2",
-  "web": "https://github.com/CrystalFerrai/IcarusModManager"
+  "web": "https://github.com/arizonawayfarer/icarus-zero-craft-costs"
 }

@@ -24,12 +24,18 @@ If your game is not installed in the default Steam location, pass the Icarus roo
 pwsh -File .\scripts\build-zero-craft-mod.ps1 -GameRoot 'D:\SteamLibrary\steamapps\common\Icarus\Icarus'
 ```
 
+To override the packaged mod version:
+
+```powershell
+pwsh -File .\scripts\build-zero-craft-mod.ps1 -Version '1.0.3'
+```
+
 ## Output
 
 The build script writes a mod zip to:
 
 ```text
-dist\zero-craft-costs-1.0.2.zip
+dist\zero-craft-costs-<version>.zip
 ```
 
 Install that zip with Icarus Mod Manager.
